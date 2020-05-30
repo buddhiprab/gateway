@@ -1,0 +1,26 @@
+server:
+  port: 8080
+
+spring:
+  h2:
+    console:
+      enabled: true
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:testdb
+    username: sa
+    password: password
+    platform: org.hibernate.dialect.Oracle11gDialect
+    continue-on-error: true
+  jpa:
+    hibernate:
+      ddl-auto: none
+
+logging:
+  level:
+    root: info
+
+zuul:
+  host:
+    connect-timeout-millis: 10000
+    socket-timeout-millis: 60000
