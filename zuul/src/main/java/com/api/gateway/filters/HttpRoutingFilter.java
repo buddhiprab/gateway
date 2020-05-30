@@ -3,19 +3,20 @@ package com.api.gateway.filters;
 import com.netflix.zuul.ZuulFilter;
 import com.netflix.zuul.context.RequestContext;
 import com.netflix.zuul.exception.ZuulException;
+import org.springframework.stereotype.Component;
 
-import static org.springframework.cloud.netflix.zuul.filters.support.FilterConstants.ROUTE_TYPE;
-import static org.springframework.cloud.netflix.zuul.filters.support.FilterConstants.SIMPLE_HOST_ROUTING_FILTER_ORDER;
+import static org.springframework.cloud.netflix.zuul.filters.support.FilterConstants.*;
 
+@Component
 public class HttpRoutingFilter extends ZuulFilter {
     @Override
     public String filterType() {
-        return ROUTE_TYPE;
+        return PRE_TYPE;
     }
 
     @Override
     public int filterOrder() {
-        return SIMPLE_HOST_ROUTING_FILTER_ORDER - 1;
+        return 1;
     }
 
     @Override
