@@ -3,7 +3,11 @@ server:
 
 spring:
   application:
-    name: gateway-server
+    name: gateway
+  cloud:
+    loadbalancer:
+      retry:
+        enabled: true
 
 eureka:
   client:
@@ -17,3 +21,8 @@ eureka:
 
 zuul:
   prefix: /api
+  retryable: true
+
+ribbon:
+  OkToRetryOnAllOperations: true
+  MaxAutoRetries: 2
