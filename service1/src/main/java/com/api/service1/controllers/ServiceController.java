@@ -9,8 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 /*created by Buddhi*/
 
 @RestController
-@RequestMapping("/service1")
-public class SettlementMessageController {
+public class ServiceController {
 
     @GetMapping("/test")
     public ResponseEntity test() {

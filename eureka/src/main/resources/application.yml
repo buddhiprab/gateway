@@ -1,0 +1,19 @@
+server:
+  port: 8085
+
+spring:
+  application:
+    name: eureka
+  boot:
+    admin:
+      context-path: /admin
+
+eureka:
+  instance:
+    hostname: localhost
+    lease-renewal-interval-in-seconds: 5
+  client:
+    registerWithEureka: false
+    serviceUrl:
+      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
+    registry-fetch-interval-seconds: 5
