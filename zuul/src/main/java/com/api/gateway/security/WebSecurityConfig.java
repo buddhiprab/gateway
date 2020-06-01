@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -13,12 +12,13 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-
-import javax.annotation.Resource;
+import org.springframework.security.web.header.writers.DelegatingRequestMatcherHeaderWriter;
+import org.springframework.security.web.header.writers.frameoptions.XFrameOptionsHeaderWriter;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.security.web.util.matcher.RequestMatcher;
 
 @Configuration
 @EnableWebSecurity
@@ -55,17 +55,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         .build());
     }
 
-    /*@Autowired
-    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        auth.inMemoryAuthentication()
-                .withUser("admin").password(passwordEncoder.encode("password")).roles("ADMIN", "USER");
-    }*/
-
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+        RequestMatcher matcher = new AntPathRequestMatcher("/h2-console/**");
+        DelegatingRequestMatcherHeaderWriter headerWriter =
+                new DelegatingRequestMatcherHeaderWriter(matcher,new XFrameOptionsHeaderWriter(XFrameOptionsHeaderWriter.XFrameOptionsMode.SAMEORIGIN));
+        http.headers()
+                .addHeaderWriter(headerWriter);
+
         http.cors().and().csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/token").permitAll()
+                .antMatchers("/token","/h2-console/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .sessionManagement()

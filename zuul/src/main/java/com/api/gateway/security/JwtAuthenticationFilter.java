@@ -1,5 +1,7 @@
 package com.api.gateway.security;
 
+import com.api.gateway.model.RequestTrace;
+import com.api.gateway.repository.RequestTraceRepository;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.SignatureException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,7 +10,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
-import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
@@ -25,10 +26,17 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private UserDetailsService userDetailsService;
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
+    @Autowired
+    RequestTraceRepository requestTraceRepository;
 
     @Override
     protected void doFilterInternal(HttpServletRequest req, HttpServletResponse
             res, FilterChain chain) throws IOException, ServletException {
+        //save request
+        RequestTrace requestTrace = new RequestTrace();
+        requestTrace.setUrl(req.getRequestURI());
+        requestTraceRepository.save(requestTrace);
+
         String header = req.getHeader(HEADER_STRING);
         String username = null;
         String authToken = null;
