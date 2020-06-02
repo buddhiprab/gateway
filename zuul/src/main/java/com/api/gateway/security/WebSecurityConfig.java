@@ -63,6 +63,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.headers()
                 .addHeaderWriter(headerWriter);
 
+        http.requiresChannel().anyRequest().requiresSecure();
+
         http.cors().and().csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/token","/h2-console/**").permitAll()
