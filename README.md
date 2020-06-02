@@ -161,7 +161,7 @@ response:
 
 ```
 
-##### http request
+##### HTTP request (without HTTPS)
 
 ```
 request:
@@ -178,7 +178,34 @@ This combination of host and port requires TLS.
 
 ```
 
-#### H2 database access
+##### Request without JWT Token
+
+```
+request:
+
+GET /api/service1/test1?param1=1 HTTPS
+Host: localhost:8080
+
+
+response:
+
+{
+    "timestamp": "2020-06-02T19:31:21.913+00:00",
+    "status": 403,
+    "error": "Forbidden",
+    "message": "",
+    "path": "/api/service1/test1"
+}
+
+```
+
+
+#### Eureka Discovery Server
+
+![](images/eureka.png)
+
+
+#### H2 database for request tracing
 
 ```
 access url: https://localhost:8080/h2-console
