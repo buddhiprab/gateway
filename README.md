@@ -1,8 +1,12 @@
 # API Gateway implementation using Spring Boot Netflix Zuul, Netflix Eureka Discovery Server
 
-### Design
+### API Gateway Design
 
+![](images/zuul_ribbon_loadbalancer.jpg)
 
+##### Ribbon Loadbalancer retry mechanism 
+
+![](images/zuul_ribbon_loadbalancer_retry.jpg)
 
 #### for https support, created self signed certificates
 
@@ -173,3 +177,17 @@ Bad Request
 This combination of host and port requires TLS.
 
 ```
+
+#### H2 database access
+
+```
+access url: https://localhost:8080/h2-console
+
+jdbc url: jdbc:h2:mem:testdb
+username: sa
+password: password
+```
+
+![](images/h2-1.png)
+
+![](images/h2-2.png)
