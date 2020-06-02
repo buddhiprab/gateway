@@ -1,4 +1,4 @@
-# API Gateway implementation using Spring Boot Netflix Zuul, Netflix Eureka Discovery Server
+# API Gateway implementation using Spring Boot, Spring Cloud, Netflix Zuul, Netflix Eureka Discovery Server
 
 ### API Gateway Design
 
